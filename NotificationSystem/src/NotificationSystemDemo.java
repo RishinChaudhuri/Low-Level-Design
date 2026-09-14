@@ -3,7 +3,7 @@ import entities.Notification;
 import entities.Recipient;
 import enumerations.NotificationType;
 
-import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
 import java.util.UUID;
 
@@ -13,8 +13,8 @@ public class NotificationSystemDemo {
         NotificationSystem notificationSystem = new NotificationSystem();
 
         // 2. Define recipients
-        Recipient recipient1 = new Recipient(UUID.randomUUID().toString(), "user123", "john.doe@example.com", "9876543210", new ArrayList<>(List.of(NotificationType.PUSH_NOTIFICATION, NotificationType.SMS)));
-        Recipient recipient2 = new Recipient(UUID.randomUUID().toString(), "user456", "abc.xyz@example.com", "8765432190", new ArrayList<>(List.of(NotificationType.E_MAIL)));
+        Recipient recipient1 = new Recipient(UUID.randomUUID().toString(), "user123", "john.doe@example.com", "9876543210", new HashSet<>(List.of(NotificationType.PUSH_NOTIFICATION, NotificationType.SMS)));
+        Recipient recipient2 = new Recipient(UUID.randomUUID().toString(), "user456", "abc.xyz@example.com", "8765432190", new HashSet<>(List.of(NotificationType.E_MAIL)));
 
         notificationSystem.addRecipient(recipient1);
         notificationSystem.addRecipient(recipient2);

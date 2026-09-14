@@ -7,6 +7,7 @@ import enumerations.NotificationType;
 import factory.NotificationGatewayFactory;
 
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.concurrent.*;
 
 public class NotificationSystem
@@ -38,9 +39,11 @@ public class NotificationSystem
            try
            {
                Recipient recipient = this.recipientController.getRecipientById(recipientId);
-               for(int i=0; i<recipient.getOptedNotificationGateways().size(); i++)
+               Iterator<NotificationType> it = recipient.getOptedNotificationGateways().iterator();
+
+               while(it.hasNext())
                {
-                   NotificationType notificationType  = recipient.getOptedNotificationGateways().get(i);
+                   NotificationType notificationType  = it.next();
                    NotificationGateway notificationGateway = NotificationGatewayFactory.getNotificationGateway(notificationType, recipient);
                    RetryNotificationGateway retry = new RetryNotificationGateway(notificationGateway);
                    retry.sendNotification(notification);
@@ -59,15 +62,10 @@ public class NotificationSystem
             try
             {
                 ArrayList<Recipient> recipients = this.recipientController.getAllRecipients();
+
                 for(Recipient recipient : recipients)
                 {
-                    for(int i=0; i<recipient.getOptedNotificationGateways().size(); i++)
-                    {
-                        NotificationType notificationType  = recipient.getOptedNotificationGateways().get(i);
-                        NotificationGateway notificationGateway = NotificationGatewayFactory.getNotificationGateway(notificationType, recipient);
-                        RetryNotificationGateway retry = new RetryNotificationGateway(notificationGateway);
-                        retry.sendNotification(notification);
-                    }
+                    this.sendNotificationToRecipient(recipient.getId(), notification);
                 }
 
             }

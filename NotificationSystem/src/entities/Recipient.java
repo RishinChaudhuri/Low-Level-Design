@@ -1,7 +1,9 @@
 package entities;
 
 import enumerations.NotificationType;
-import java.util.ArrayList;
+
+import java.util.HashSet;
+import java.util.Set;
 
 public class Recipient
 {
@@ -9,9 +11,9 @@ public class Recipient
     private String name;
     private String emailId;
     private String phoneNumber;
-    private final ArrayList<NotificationType> optedNotificationGateways;
+    private final Set<NotificationType> optedNotificationGateways;
 
-    public Recipient(String id, String name, String emailId, String phoneNumber, ArrayList<NotificationType> optedTypes)
+    public Recipient(String id, String name, String emailId, String phoneNumber, HashSet<NotificationType> optedTypes)
     {
         this.id = id;
         this.name = name;
@@ -23,7 +25,7 @@ public class Recipient
     public Recipient()
     {
         this.id = "";
-        this.optedNotificationGateways = new ArrayList<NotificationType>();
+        this.optedNotificationGateways = new HashSet<>();
     }
 
     // getters
@@ -47,7 +49,7 @@ public class Recipient
         return this.phoneNumber;
     }
 
-    public ArrayList<NotificationType> getOptedNotificationGateways()
+    public Set<NotificationType> getOptedNotificationGateways()
     {
         return this.optedNotificationGateways;
     }

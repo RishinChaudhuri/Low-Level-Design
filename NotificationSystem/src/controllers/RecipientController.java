@@ -1,12 +1,14 @@
 package controllers;
 
 import entities.Recipient;
+
 import java.util.ArrayList;
-import java.util.HashMap;
+import java.util.Map;
+import java.util.concurrent.ConcurrentHashMap;
 
 public class RecipientController
 {
-    private final HashMap<String, Recipient> recipientMap = new HashMap<>();
+    private final Map<String, Recipient> recipientMap = new ConcurrentHashMap<>();
     private static final Recipient NULL_RECIPIENT = new Recipient();
 
     public Recipient getRecipientById(String id)
