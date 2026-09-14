@@ -26,14 +26,14 @@ public class NotificationSystemDemo {
 
         // Scenario 2: Send a direct push notification
         Notification pushNotification = new NotificationBuilder("You have a new message from Jane.").setTitle("New Message").build();
-        notificationSystem.sendNotificationToRecipient(recipient1.getId(), pushNotification);
+        notificationSystem.scheduleNotification(recipient1.getId(), pushNotification, 20);
 
         // Scenario 3: Send order confirmation SMS
         Notification orderSms = new NotificationBuilder( "Your order for Digital Clock is confirmed").build();
         notificationSystem.sendNotificationToRecipient(recipient2.getId(), orderSms);
 
         // Wait for a moment to allow the queue processor to work
-        Thread.sleep(1000);
+        Thread.sleep(50000);
 
         // 4. Shutdown the system
         System.out.println("\nShutting down the notification system...");

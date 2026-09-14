@@ -17,8 +17,10 @@ public class NotificationSystem
     private static final int MAX_POOL_SIZE = 8;
     private static final long KEEP_ALIVE_TIME = 60L;
     private static final int QUEUE_CAPACITY = 500;
+    private static final int SCHEDULED_POOL_SIZE = 2;
 
     private final ExecutorService executorService;
+    private final ScheduledExecutorService scheduledExecutorService;
     private final RecipientController recipientController = new RecipientController();
 
     public NotificationSystem() {
@@ -31,6 +33,8 @@ public class NotificationSystem
                 Executors.defaultThreadFactory(),
                 new ThreadPoolExecutor.CallerRunsPolicy() // Falls back to calling thread if queue fills up
         );
+
+        this.scheduledExecutorService = Executors.newScheduledThreadPool(SCHEDULED_POOL_SIZE);
     }
 
     public void sendNotificationToRecipient(String recipientId, Notification notification)
@@ -74,6 +78,13 @@ public class NotificationSystem
                 System.err.println("Failed to send async notification to all recipients due to "+ exp.getMessage());
             }
         });
+    }
+
+    public void scheduleNotification(String recipientId, Notification notification, long delaySeconds) {
+       this.scheduledExecutorService.schedule(
+                () -> sendNotificationToRecipient(recipientId, notification),
+                delaySeconds,
+                TimeUnit.SECONDS);
     }
 
     public void addRecipient(Recipient recipient)
