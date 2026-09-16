@@ -2,7 +2,11 @@ package decorator;
 
 import entities.Notification;
 import entities.NotificationGateway;
+import entities.NotificationRecipientRecord;
+import entities.Recipient;
 
+import java.util.Queue;
+import java.util.concurrent.ConcurrentLinkedQueue;
 import java.util.concurrent.ThreadLocalRandom;
 
 public class RetryNotificationGateway implements NotificationGateway
@@ -10,6 +14,7 @@ public class RetryNotificationGateway implements NotificationGateway
     private final NotificationGateway notificationGateway;
     private static final int RETRIES = 3;
     private static final int MAX_TIMEOUT = 7500;
+    private final Queue<NotificationRecipientRecord> deadLetterQueue = new ConcurrentLinkedQueue<>();
 
     public RetryNotificationGateway(NotificationGateway notificationGateway)
     {
@@ -17,13 +22,13 @@ public class RetryNotificationGateway implements NotificationGateway
     }
 
     @Override
-    public boolean sendNotification(Notification notification)
+    public boolean sendNotification(Recipient recipient, Notification notification)
     {
         long base = 1000;
         int retryAttempt = 0;
         for(int i=1; i<=RetryNotificationGateway.RETRIES; i++)
         {
-            if(this.notificationGateway.sendNotification(notification))
+            if(this.notificationGateway.sendNotification(recipient, notification))
             {
                 return true;
             }
@@ -42,6 +47,7 @@ public class RetryNotificationGateway implements NotificationGateway
 
             }
         }
+        this.deadLetterQueue.add(new NotificationRecipientRecord(recipient, notification));
         return false;
     }
 }

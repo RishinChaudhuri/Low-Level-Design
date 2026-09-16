@@ -5,7 +5,7 @@ import entities.Notification;
 public class NotificationBuilder
 {
     public String title = ""; // non-mandatory field
-    public String body; // mandatory field
+    public String body;// mandatory field
 
     public NotificationBuilder(String body)
     {

@@ -16,15 +16,15 @@ public class NotificationGatewayFactory
     {
         if(type == NotificationType.SMS)
         {
-            return buildIfAbsent(type, () -> new SMSNotificationGateway(recipient));
+            return buildIfAbsent(type, () -> new SMSNotificationGateway());
         }
         else if(type == NotificationType.E_MAIL)
         {
-            return buildIfAbsent(type, () -> new EmailNotificationGateway(recipient));
+            return buildIfAbsent(type, () -> new EmailNotificationGateway());
         }
         else if(type == NotificationType.PUSH_NOTIFICATION)
         {
-            return buildIfAbsent(type, () -> new PushNotificationGateway(recipient));
+            return buildIfAbsent(type, () -> new PushNotificationGateway());
         }
         else
         {

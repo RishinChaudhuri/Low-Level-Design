@@ -5,7 +5,7 @@ import builder.NotificationBuilder;
 public class Notification
 {
     private String title; // non-mandatory field
-    private String body; // mandatory field
+    private String body;// mandatory field
 
     public Notification(NotificationBuilder builder)
     {
@@ -22,5 +22,6 @@ public class Notification
     {
         return this.body;
     }
+
 
 }
