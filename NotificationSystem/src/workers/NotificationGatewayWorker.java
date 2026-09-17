@@ -32,9 +32,9 @@ public class NotificationGatewayWorker implements Runnable {
 
                 this.rateLimiter.acquire();
 
-                NotificationGateway notificationGateway = NotificationGatewayFactory.getNotificationGateway(this.notificationType, notificationRecipientRecord.getRecipient());
+                NotificationGateway notificationGateway = NotificationGatewayFactory.getNotificationGateway(this.notificationType, notificationRecipientRecord.recipient());
                 RetryNotificationGateway retry = new RetryNotificationGateway(notificationGateway);
-                retry.sendNotification(notificationRecipientRecord.getRecipient(), notificationRecipientRecord.getNotification());
+                retry.sendNotification(notificationRecipientRecord.recipient(), notificationRecipientRecord.notification());
 
             } catch (InterruptedException e) {
 
